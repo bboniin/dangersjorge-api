@@ -1,0 +1,98 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+
+model User {
+  id              String       @id @default(uuid())
+  email           String       @unique
+  password        String    
+  name            String
+  role            Role
+  createdAt       DateTime     @default(now())
+  updatedAt       DateTime     @updatedAt
+  photo           String?        
+  oab             String?    
+  observation     String?    
+  visible         Boolean      @default(true)
+   
+  processes    Process[]
+  
+  @@map("users")
+}
+
+model Process {
+  id              String    @id @default(uuid())
+  number          String    @unique
+  clientId        String
+  status          String
+  reu             String
+  lawyers         String?
+  lawyerAuthor    String
+  action          String?
+  varaId          String
+  value           Float?
+  link            String?
+
+  observations    observation[]
+
+  vara            Vara     @relation(fields: [varaId], references: [id])
+  client          Client   @relation(fields: [clientId], references: [id])
+  lawyer          User     @relation(fields: [lawyerAuthor], references: [id])
+
+  @@map("processes")
+}
+
+model observation {
+  id             String     @id @default(uuid()) 
+  description    String?
+  file           String?
+  fileName       String?
+  processId      String
+    
+  process        Process    @relation(fields: [processId], references: [id], onDelete: Cascade)
+
+  @@map("observations")
+}
+
+model Vara {
+  id           String     @id @default(uuid()) 
+  name         String?
+  visible      Boolean    @default(true)
+    
+  processes    Process[]
+
+  @@map("varas")
+}
+
+model Client {
+  id              String     @id @default(uuid()) 
+  name            String
+  email           String?
+  phoneNumber     String?
+  type            String?
+  cpfOrCnpj       String?    @unique
+  observation     String?
+  visible         Boolean    @default(true)
+    
+  processes       Process[]
+
+  @@map("clients")
+}
+
+enum Role {
+  ADMIN
+  LAWYER
+  SECRETARY
+}
