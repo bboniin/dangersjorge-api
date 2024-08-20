@@ -31,9 +31,7 @@ class EditObservationProcessService {
         let fileName = ""
 
         if(file){
-            let fileName = file.substring(16, file.length)
-            
-            console.log(file, fileName)
+            fileName = file.substring(33, file.length)
 
             const s3Storage = new S3Storage()
 

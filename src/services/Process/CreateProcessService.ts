@@ -30,19 +30,6 @@ class CreateProcessService {
             throw new Error("Processo já cadastrado no sistema")
         }
 
-        console.log({
-            number: number,
-            clientId: clientId,
-            status: status,
-            reu: reu,
-            lawyers: lawyers,
-            lawyerAuthor: lawyerAuthor,
-            action: action,
-            varaId: varaId,
-            value: value,
-            link: link,
-        })
-
         const process = await prismaClient.process.create({
             data: {
                 number: number,
@@ -57,8 +44,6 @@ class CreateProcessService {
                 link: link,
             }
         })
-
-        console.log(process)
 
         return (process)
     }

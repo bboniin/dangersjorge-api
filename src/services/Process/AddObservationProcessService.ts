@@ -20,14 +20,10 @@ class AddObservationProcessService {
 
         let fileName = ""
 
-        console.log(file, fileName)
-
         if(file){
             const s3Storage = new S3Storage()
 
-            fileName = file.substring(16, file.length)
-
-            console.log(file, fileName)
+            fileName = file.substring(33, file.length)
 
             file = await s3Storage.saveFile(file)
         }
