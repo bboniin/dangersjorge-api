@@ -28,6 +28,11 @@ import { CreateProcessController } from './controllers/Process/CreateProcessCont
 import { EditProcessController } from './controllers/Process/EditProcessController'
 import { DeleteProcessController } from './controllers/Process/DeleteProcessController'
 import { EditObservationProcessController } from './controllers/Process/EditObservationProcessController'
+import { ListTasksController } from './controllers/Task/ListTasksController'
+import { ListTasksUserController } from './controllers/Task/ListTasksUserController'
+import { CreateTaskController } from './controllers/Task/CreateTaskController'
+import { EditTaskController } from './controllers/Task/EditTaskController'
+import { DeleteTaskController } from './controllers/Task/DeleteTaskController'
 
 const upload = multer(uploadConfig)
 
@@ -53,6 +58,12 @@ router.get('/users', new ListUsersController().handle)
 router.post('/user', upload.single("file"), new CreateUserController().handle)
 router.put('/user/:userId', upload.single("file"), new EditUserController().handle)
 router.delete('/user/:userId', new DeleteUserController().handle)
+
+router.get('/tasks', new ListTasksController().handle)
+router.get('/tasks/user', new ListTasksUserController().handle)
+router.post('/task', new CreateTaskController().handle)
+router.put('/task/:taskId', new EditTaskController().handle)
+router.delete('/task/:taskId', new DeleteTaskController().handle)
 
 router.get('/process/:processId', new GetProcessController().handle)
 router.get('/processes', new ListProcessesController().handle)

@@ -27,14 +27,15 @@ model User {
   observation     String?    
   visible         Boolean      @default(true)
    
-  processes    Process[]
+  processes       Process[]
+  tasks           Task[]
   
   @@map("users")
 }
 
 model Process {
-  id              String    @id @default(uuid())
-  number          String    @unique
+  id              String          @id @default(uuid())
+  number          String          @unique
   clientId        String
   status          String
   reu             String
@@ -42,19 +43,23 @@ model Process {
   lawyerAuthor    String
   action          String?
   varaId          String
+  activePole      Boolean         @default(true)
   value           Float?
   link            String?
+  createdAt       DateTime        @default(now())
+  updatedAt       DateTime        @updatedAt @default(now())
 
-  observations    observation[]
+  observations    Observation[]
+  tasks           Task[]
 
-  vara            Vara     @relation(fields: [varaId], references: [id])
-  client          Client   @relation(fields: [clientId], references: [id])
-  lawyer          User     @relation(fields: [lawyerAuthor], references: [id])
+  vara            Vara            @relation(fields: [varaId], references: [id])
+  client          Client          @relation(fields: [clientId], references: [id])
+  lawyer          User            @relation(fields: [lawyerAuthor], references: [id])
 
   @@map("processes")
 }
 
-model observation {
+model Observation {
   id             String     @id @default(uuid()) 
   description    String?
   file           String?
@@ -67,26 +72,49 @@ model observation {
 }
 
 model Vara {
-  id           String     @id @default(uuid()) 
-  name         String?
-  visible      Boolean    @default(true)
+  id           String       @id @default(uuid()) 
+  name         String
+  judge        String?      
+  visible      Boolean      @default(true)
     
   processes    Process[]
 
   @@map("varas")
 }
 
+model Task {
+  id                  String       @id @default(uuid())
+  clientId            String?
+  processId           String?
+  userId              String
+  description         String
+  idNumber            String
+  type                String
+  date                DateTime
+  createdAt           DateTime     @default(now())
+  updatedAt           DateTime     @updatedAt 
+
+  process             Process?     @relation(fields: [processId], references: [id])
+  client              Client?      @relation(fields: [clientId], references: [id])
+  user                User         @relation(fields: [userId], references: [id])
+  
+  @@map("tasks")
+}
+
 model Client {
-  id              String     @id @default(uuid()) 
-  name            String
+  id              String       @id @default(uuid()) 
+  name            String       
   email           String?
   phoneNumber     String?
   type            String?
-  cpfOrCnpj       String?    @unique
+  cpfOrCnpj       String?      @unique
   observation     String?
-  visible         Boolean    @default(true)
+  visible         Boolean      @default(true)
+  createdAt       DateTime     @default(now())
+  updatedAt       DateTime     @updatedAt @default(now())
     
   processes       Process[]
+  tasks           Task[]
 
   @@map("clients")
 }

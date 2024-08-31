@@ -7,6 +7,16 @@ interface VaraRequest {
 class DeleteVaraService {
     async execute({ varaId }: VaraRequest) {
 
+        const varaAlreadyExists = await prismaClient.vara.findFirst({
+            where: {
+                id: varaId
+            }
+        })
+
+        if (!varaAlreadyExists) {
+            throw new Error("Vara não encontrada")
+        }
+
         await prismaClient.vara.update({
             data: {
                 visible: false

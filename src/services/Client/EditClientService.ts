@@ -17,6 +17,16 @@ class EditClientService {
             throw new Error("Nome e tipo são obrigatórios")
         }
 
+        const clientExists = await prismaClient.client.findFirst({
+            where: {
+                id: clientId
+            }
+        })
+
+        if (!clientExists) {
+            throw new Error("Cliente não encontrado")
+        }
+        
         const clientAlreadyExists = await prismaClient.client.findFirst({
             where: {
                 cpfOrCnpj: cpfOrCnpj

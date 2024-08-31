@@ -6,12 +6,12 @@ class EditProcessController {
 
         const { processId } = req.params
 
-        const { number, clientId, status, reu, lawyers, lawyerAuthor, action, varaId, value, link } = req.body
+        const { number, clientId, activePole, status, reu, lawyers, lawyerAuthor, action, varaId, value, link } = req.body
 
         const editProcessService = new EditProcessService
 
         const process = await editProcessService.execute({
-            number, clientId, status, reu, lawyers, lawyerAuthor, action, varaId, value, link, processId
+            number, clientId, activePole, status, reu, lawyers, lawyerAuthor, action, varaId, value, link, processId
         })
 
         return res.json(process)

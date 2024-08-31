@@ -24,9 +24,16 @@ class ListClientsService {
         const clients = await prismaClient.client.findMany({
             where: {
                 visible: true,
+                name: {
+                    contains: "",
+                    mode: "insensitive"
+                }
             },
             include: {
                 processes: true,
+            },
+            orderBy: {
+                name: "asc",
             },
             ...filter
         })

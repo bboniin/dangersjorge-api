@@ -45,6 +45,9 @@ class ListUsersService {
                         visible: true,
                         role: "SECRETARY"
                     },
+                    orderBy: {
+                        name: "desc"
+                    },
                     ...filter
                 })
                 return ({users, usersTotal})  
@@ -61,6 +64,9 @@ class ListUsersService {
                             visible: true,
                             role: "LAWYER"
                         },
+                        orderBy: {
+                            name: "desc"
+                        },
                         ...filter
                     })
                     return ({users, usersTotal})  
@@ -73,6 +79,9 @@ class ListUsersService {
                     const users = await prismaClient.user.findMany({
                         where: {
                             visible: true
+                        },
+                        orderBy: {
+                            name: "desc"
                         },
                         ...filter
                     })

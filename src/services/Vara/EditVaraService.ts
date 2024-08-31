@@ -2,19 +2,31 @@ import prismaClient from '../../prisma'
 
 interface VaraRequest {
     name: string;
+    judge: string;
     varaId: string
 }
 
 class EditVaraService {
-    async execute({ name, varaId }: VaraRequest) {
+    async execute({ name, judge, varaId }: VaraRequest) {
 
-        if (!name) {
-            throw new Error("Nome é obrigatório")
+        if (!name || !judge) {
+            throw new Error("Nome e juiz são obrigatórios")
+        }
+
+        const varaExists = await prismaClient.vara.findFirst({
+            where: {
+                id: varaId
+            }
+        })
+
+        if (!varaExists) {
+            throw new Error("Vara não encontrada")
         }
 
         const varaAlreadyExists = await prismaClient.vara.findFirst({
             where: {
-                name: name
+                name: name,
+                visible: true
             }
         })
 
@@ -29,7 +41,8 @@ class EditVaraService {
                 id: varaId,
             },
             data: {
-                name: name
+                name: name,
+                judge: judge
             }
         })
 

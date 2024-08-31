@@ -4,12 +4,12 @@ import { CreateProcessService } from '../../services/Process/CreateProcessServic
 class CreateProcessController {
     async handle(req: Request, res: Response) {
         
-        const { number, clientId, status, reu, lawyers, lawyerAuthor, action, varaId, value, link } = req.body
+        const { number, clientId, activePole, status, reu, lawyers, lawyerAuthor, action, varaId, value, link } = req.body
 
         const createProcessService = new CreateProcessService
 
         const process = await createProcessService.execute({
-            number, clientId, status, reu, lawyers, lawyerAuthor, action, varaId, value, link
+            number, clientId, activePole, status, reu, lawyers, lawyerAuthor, action, varaId, value, link
         })
 
         return res.json(process)

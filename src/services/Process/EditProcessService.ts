@@ -11,17 +11,28 @@ interface ProcessRequest {
     varaId: string;
     value: number;
     link: string;
+    activePole: boolean,
     processId: string;
 }
 
 class EditProcessService {
-    async execute({ number, clientId, status, reu, lawyers, lawyerAuthor, action, varaId, value, link, processId }: ProcessRequest) {
+    async execute({ number, clientId, activePole, status, reu, lawyers, lawyerAuthor, action, varaId, value, link, processId }: ProcessRequest) {
 
         const processAlreadyExists = await prismaClient.process.findFirst({
             where: {
                 number: number
             }
         })
+
+        const processExists = await prismaClient.process.findFirst({
+            where: {
+                id: processId
+            }
+        })
+
+        if (!processExists) {
+            throw new Error("Processo não encontrado")
+        }
 
         if (processAlreadyExists) {
             if (processAlreadyExists.id != processId) {
@@ -39,6 +50,7 @@ class EditProcessService {
                 number: number,
                 clientId: clientId,
                 status: status,
+                activePole: activePole,
                 reu: reu,
                 lawyers: lawyers,
                 lawyerAuthor: lawyerAuthor,

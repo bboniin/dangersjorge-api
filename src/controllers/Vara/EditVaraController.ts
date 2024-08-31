@@ -6,12 +6,12 @@ class EditVaraController {
 
         const { varaId } = req.params
 
-        const { name } = req.body
+        const { name, judge } = req.body
 
         const editVaraService = new EditVaraService
 
         const vara = await editVaraService.execute({
-            name, varaId
+            name, judge, varaId
         })
 
         return res.json(vara)

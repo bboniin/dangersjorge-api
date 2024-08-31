@@ -10,11 +10,12 @@ interface ProcessRequest {
     action: string;
     varaId: string;
     value: number;
+    activePole: boolean;
     link: string;
 }
 
 class CreateProcessService {
-    async execute({ number, clientId, status, reu, lawyers, lawyerAuthor, action, varaId, value, link }: ProcessRequest) {
+    async execute({ number, clientId, status, activePole, reu, lawyers, lawyerAuthor, action, varaId, value, link }: ProcessRequest) {
 
         if (!number || !clientId || !status || !reu || !lawyerAuthor || !action || !varaId) {
             throw new Error("Preencha todos os campos obrigatórios")
@@ -41,6 +42,7 @@ class CreateProcessService {
                 action: action,
                 varaId: varaId,
                 value: value,
+                activePole: activePole,
                 link: link,
             }
         })

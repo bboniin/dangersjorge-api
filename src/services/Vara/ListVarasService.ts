@@ -25,6 +25,9 @@ class ListVarasService {
             where: {
                 visible: true,
             },
+            orderBy: {
+                name: "asc"
+            },
             ...filter
         })
 

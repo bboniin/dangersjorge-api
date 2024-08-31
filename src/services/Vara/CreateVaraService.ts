@@ -2,18 +2,20 @@ import prismaClient from '../../prisma'
 
 interface VaraRequest {
     name: string;
+    judge: string;
 }
 
 class CreateVaraService {
-    async execute({ name }: VaraRequest) {
+    async execute({ name, judge }: VaraRequest) {
 
-        if (!name) {
-            throw new Error("Nome é obrigatório")
+        if (!name || !judge) {
+            throw new Error("Nome e juiz são obrigatórios")
         }
 
         const varaAlreadyExists = await prismaClient.vara.findFirst({
             where: {
-                name: name
+                name: name,
+                visible: true
             }
         })
 
@@ -23,7 +25,8 @@ class CreateVaraService {
 
         const vara = await prismaClient.vara.create({
             data: {
-                name: name
+                name: name,
+                judge: judge
             }
         })
 

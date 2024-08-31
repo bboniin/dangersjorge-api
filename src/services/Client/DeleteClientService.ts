@@ -7,6 +7,16 @@ interface ClientRequest {
 class DeleteClientService {
     async execute({ clientId }: ClientRequest) {
 
+        const clientExists = await prismaClient.client.findFirst({
+            where: {
+                id: clientId
+            }
+        })
+
+        if (!clientExists) {
+            throw new Error("Cliente não encontrado")
+        }
+
         await prismaClient.client.update({
             data: {
                 visible: false

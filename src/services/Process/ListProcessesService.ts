@@ -44,6 +44,9 @@ class ListProcessesService {
                 vara: true,
                 observations: true
             },
+            orderBy: {
+                createdAt: "desc"
+            },
             ...filter
         })
 
