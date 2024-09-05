@@ -26,11 +26,11 @@ class DeleteTaskService {
             },
         })
 
-        if(createSecretary){
-            const message = `${taskExists.description} no dia ${format(taskExists.date, "dd/MM/yyyy HH:mm")} foi excluido da sua agenda, clique para sincronizar agenda`
+        const message = `${taskExists.description} no dia ${format(taskExists.date, "dd/MM/yyyy HH:mm")} foi excluido da sua agenda, clique para sincronizar agenda`
 
-            const client = new OneSignal.Client('950b926d-b06c-4130-a7ee-647d60bd6e22', 'NDZkMWRhYjQtMTU2Mi00OWQ3LWIxNjQtNWY4N2RmMmJkNzFk');
+        const client = new OneSignal.Client('950b926d-b06c-4130-a7ee-647d60bd6e22', 'NDZkMWRhYjQtMTU2Mi00OWQ3LWIxNjQtNWY4N2RmMmJkNzFk');
 
+        if(createSecretary && taskExists.userId){
             await client.createNotification({
                 headings: {
                     'en': taskExists.type+" deletado",
@@ -41,6 +41,18 @@ class DeleteTaskService {
                 'pt': message,
                 },
                 include_external_user_ids: [taskExists.userId]
+            })
+        }else{
+            await client.createNotification({
+                headings: {
+                    'en': taskExists.type+" deletado",
+                    'pt': taskExists.type+" deletado",
+                },
+                contents: {
+                'en': message,
+                'pt': message,
+                },
+                included_segments: ['All']
             })
         }
 

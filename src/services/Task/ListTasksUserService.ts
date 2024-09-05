@@ -10,18 +10,30 @@ class ListTasksUserService {
 
         const tasksTotal = await prismaClient.task.count({
             where: {
-                userId: userId,
+                OR: [{
+                        userId: userId,
+                    },
+                    {
+                        userId: "",
+                    }
+                ],
                 date: {
-                    gte: startOfDay(addDays(new Date(), -10))
+                    gte: startOfDay(addDays(new Date(), -3))
                 }
             }
         })
 
         const tasks = await prismaClient.task.findMany({
             where: {
-                userId: userId,
+                OR: [{
+                        userId: userId,
+                    },
+                    {
+                        userId: "",
+                    }
+                ],
                 date: {
-                    gte: startOfDay(addDays(new Date(), -10))
+                    gte: startOfDay(addDays(new Date(), -3))
                 }
             },
             orderBy: {

@@ -28,7 +28,6 @@ model User {
   visible         Boolean      @default(true)
    
   processes       Process[]
-  tasks           Task[]
   
   @@map("users")
 }
@@ -84,10 +83,11 @@ model Vara {
 
 model Task {
   id                  String       @id @default(uuid())
+  title               String       @default("")
   clientId            String?
   processId           String?
-  userId              String
-  description         String
+  userId              String?
+  description         String?
   idNumber            String
   type                String
   date                DateTime
@@ -96,7 +96,6 @@ model Task {
 
   process             Process?     @relation(fields: [processId], references: [id])
   client              Client?      @relation(fields: [clientId], references: [id])
-  user                User         @relation(fields: [userId], references: [id])
   
   @@map("tasks")
 }

@@ -6,12 +6,12 @@ class EditTaskController {
 
         const { taskId } = req.params
 
-        const { description, date, clientId, processId, createSecretary, type } = req.body
+        const { title, description, date, clientId, processId, createSecretary, type, userId } = req.body
 
         const editTaskService = new EditTaskService
 
         const task = await editTaskService.execute({
-            description, date, clientId, processId, type, createSecretary, taskId
+            title, description, date, clientId, processId, type, userId, createSecretary, taskId
         })
 
         return res.json(task)

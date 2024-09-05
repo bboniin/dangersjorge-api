@@ -3,13 +3,12 @@ import prismaClient from '../../prisma'
 
 interface TaskRequest {
     page: number;
-    userId: string;
     dateStart: Date;
     dateEnd: Date;
 }
 
 class ListTasksService {
-    async execute({ page, userId, dateStart, dateEnd }: TaskRequest) {
+    async execute({ page, dateStart, dateEnd }: TaskRequest) {
 
         let filter = {}
 
@@ -18,7 +17,6 @@ class ListTasksService {
 
         const tasksTotal = await prismaClient.task.count({
             where: {
-                userId: userId,
                 date: {
                     gte: startOfDay(dateStart),
                     lte: endOfDay(dateEnd)
@@ -28,7 +26,6 @@ class ListTasksService {
 
         const tasks = await prismaClient.task.findMany({
             where: {
-                userId: userId,
                 date: {
                     gte: startOfDay(dateStart),
                     lte: endOfDay(dateEnd)
