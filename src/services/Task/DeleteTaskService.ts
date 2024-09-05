@@ -26,7 +26,7 @@ class DeleteTaskService {
             },
         })
 
-        const message = `${taskExists.description} no dia ${format(taskExists.date, "dd/MM/yyyy HH:mm")} foi excluido da sua agenda, clique para sincronizar agenda`
+        const message = `${taskExists.title} no dia ${format(taskExists.date, "dd/MM/yyyy HH:mm")} foi excluido da sua agenda, clique para sincronizar agenda`
 
         const client = new OneSignal.Client('950b926d-b06c-4130-a7ee-647d60bd6e22', 'NDZkMWRhYjQtMTU2Mi00OWQ3LWIxNjQtNWY4N2RmMmJkNzFk');
 

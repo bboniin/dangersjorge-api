@@ -46,7 +46,7 @@ class EditTaskService {
             }
         })
 
-        const message = `${description} ${format(taskExists.date, "dd/MM/yyyy HH:mm") != format(new Date(date), "dd/MM/yyyy HH:mm") ? `foi alterado de ${format(taskExists.date, "dd/MM/yyyy HH:mm")} para ${format(new Date(date), "dd/MM/yyyy HH:mm")}` : "foi alterado"}, clique para sincronizar agenda`
+        const message = `${title} ${format(taskExists.date, "dd/MM/yyyy HH:mm") != format(new Date(date), "dd/MM/yyyy HH:mm") ? `foi alterado de ${format(taskExists.date, "dd/MM/yyyy HH:mm")} para ${format(new Date(date), "dd/MM/yyyy HH:mm")}` : "foi alterado"}, clique para sincronizar agenda`
 
         const client = new OneSignal.Client('950b926d-b06c-4130-a7ee-647d60bd6e22', 'NDZkMWRhYjQtMTU2Mi00OWQ3LWIxNjQtNWY4N2RmMmJkNzFk');
 
