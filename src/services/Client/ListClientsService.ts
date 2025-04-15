@@ -1,45 +1,47 @@
-import prismaClient from '../../prisma'
+import prismaClient from "../../prisma";
 
 interface ClientRequest {
-    page: number;
-    all: boolean;
+  page: number;
+  all: boolean;
+  name: string;
 }
 
 class ListClientsService {
-    async execute({ page, all }: ClientRequest) {
+  async execute({ name, page, all }: ClientRequest) {
+    let filter = {};
 
-        let filter = {}
+    let where = {
+      visible: true,
+    };
 
-        if (!all) {
-            filter["skip"] = page * 30
-            filter["take"] = 30
-        }
-
-        const clientsTotal = await prismaClient.client.count({
-            where: {
-                visible: true
-            }
-        })
-
-        const clients = await prismaClient.client.findMany({
-            where: {
-                visible: true,
-                name: {
-                    contains: "",
-                    mode: "insensitive"
-                }
-            },
-            include: {
-                processes: true,
-            },
-            orderBy: {
-                name: "asc",
-            },
-            ...filter
-        })
-
-        return ({clients, clientsTotal})
+    if (!all) {
+      filter["skip"] = page * 30;
+      filter["take"] = 30;
+      if (name) {
+        where["name"] = {
+          contains: name,
+          mode: "insensitive",
+        };
+      }
     }
+
+    const clientsTotal = await prismaClient.client.count({
+      where: where,
+    });
+
+    const clients = await prismaClient.client.findMany({
+      where: where,
+      include: {
+        processes: true,
+      },
+      orderBy: {
+        name: "asc",
+      },
+      ...filter,
+    });
+
+    return { clients, clientsTotal };
+  }
 }
 
-export { ListClientsService }
+export { ListClientsService };
